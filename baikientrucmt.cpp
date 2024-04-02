@@ -74,6 +74,7 @@ public:
         {
             result = (fmod(n, 2) == 0 ? "0" : "1") + result;
             n /= 2;
+            n = floor(n);
         }
         return result;
     }
@@ -107,10 +108,10 @@ public:
     string floatToBinary(long double num)
     {
         // Xác định dấu của số và chuyển đổi thành số dương
-        string sign = (num < 0) ? "1" : "0";
+        string sign = (num < 0) ? "1 " : "0 ";
         num = abs(num);
 
-        long double intPart = (long double)num;
+        long double intPart = floor(num);
         long double fractionalPart = num - intPart;
 
         string intBinary = intToBinary(intPart);
@@ -317,13 +318,14 @@ public:
 int main()
 {
     PhanSo ps;
-    ps.nhap();
-    ps.in();
-    IEEE iee(s80bit);
+    // ps.nhap();
+    // ps.in();
+    IEEE iee(s32bit);
 
     cout << endl
          << "====================KQ====================" << endl;
-    long double val = ps.tuSo / ps.mauSo;
-    inketQua(iee, val);
-    // inketQua(iee, 2 * pow(10, 4932)); quá khoảng x
+    // long double val = ps.tuSo / ps.mauSo;
+    // inketQua(iee, val );
+    // inketQua(iee, 2 * pow(10, 4932)); quá khoảng
+    inketQua(iee, -312.3125);
 }

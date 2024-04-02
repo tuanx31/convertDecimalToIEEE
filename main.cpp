@@ -64,7 +64,7 @@ public:
     }
 
     // Chuyển đổi phần nguyên sang nhị phân
-    string intToBinary(int n)
+    string intToBinary(long double n)
     {
         if (n == 0)
             return "0";
@@ -72,14 +72,15 @@ public:
         string result = "";
         while (n > 0)
         {
-            result = ((n % 2) == 0 ? "0" : "1") + result;
+            result = (fmod(n, 2) == 0 ? "0" : "1") + result;
             n /= 2;
+            n = floor(n);
         }
         return result;
     }
 
     // Chuyển đổi phần thập phân sang nhị phân
-    string fractionalToBinary(double num)
+    string fractionalToBinary(long double num)
     {
         if (num >= 1 || num <= 0)
             return "";
@@ -88,7 +89,7 @@ public:
         while (num > 0)
         {
             // Nhân số thực với 2 để xem bit tiếp theo là 0 hay 1
-            double temp = num * 2;
+            long double temp = num * 2;
             if (temp >= 1)
             {
                 result += "1";
@@ -104,14 +105,14 @@ public:
     }
 
     // Hàm chuyển đổi số thực sang nhị phân
-    string floatToBinary(double num)
+    string floatToBinary(long double num)
     {
         // Xác định dấu của số và chuyển đổi thành số dương
-        string sign = (num < 0) ? "1" : "0";
+        string sign = (num < 0) ? "1 " : "0 ";
         num = abs(num);
 
-        int intPart = (int)num;
-        double fractionalPart = num - intPart;
+        long double intPart = floor(num);
+        long double fractionalPart = num - intPart;
 
         string intBinary = intToBinary(intPart);
         string fractionalBinary = fractionalToBinary(fractionalPart);
@@ -119,12 +120,12 @@ public:
         return intBinary + "." + fractionalBinary;
     }
 
-    string findS(double num)
+    string findS(long double num)
     {
         return num < 0 ? "1" : "0";
     }
 
-    string findE(double num)
+    string findE(long double num)
     {
         int E = typeIEEE.bias + find_b(floatToBinary(num));
         string Ebin = floatToBinary(E);
@@ -159,7 +160,7 @@ public:
         return result;
     }
 
-    string findM(double num)
+    string findM(long double num)
     {
         string result;
 
@@ -184,7 +185,7 @@ public:
         return roundM(result);
     }
 
-    string finalResultBin(double number)
+    string finalResultBin(long double number)
     {
         string res = findS(number) + findE(number) + findM(number);
         return res;
@@ -212,11 +213,11 @@ public:
     }
 };
 
-void inketQua(IEEE iee, double num)
+void inketQua(IEEE iee, long double num)
 {
     if (abs(num) >= pow(2, iee.typeIEEE.bias))
     {
-        cout << "Nhập số trong khoảng từ 2^-" << iee.typeIEEE.bias << " đến 2^" << iee.typeIEEE.bias;
+        cout << "Vui lòng nhập số trong khoảng từ 2^-" << iee.typeIEEE.bias << " đến 2^" << iee.typeIEEE.bias;
         return;
     }
 
@@ -258,7 +259,7 @@ void inketQua(IEEE iee, double num)
 bool kiemTraDinhDang(string input)
 {
     stringstream ss(input);
-    double tuSo, mauSo;
+    long double tuSo, mauSo;
     char delimiter;
     // Kiểm tra xem có thể đọc tử số và mẫu số từ chuỗi không
     if (!(ss >> tuSo >> delimiter >> mauSo))
@@ -281,7 +282,7 @@ bool kiemTraDinhDang(string input)
 class PhanSo
 {
 public:
-    double tuSo, mauSo;
+    long double tuSo, mauSo;
 
     void in()
     {
@@ -318,10 +319,12 @@ int main()
 {
     PhanSo ps;
     ps.nhap();
+    ps.in();
     IEEE iee(s80bit);
-
     cout << endl
          << "====================KQ====================" << endl;
-    inketQua(iee, ps.tuSo / ps.mauSo);
-    // inketQua(iee, 2 * pow(10, 4932)); quá khoảng x
+    long double val = ps.tuSo / ps.mauSo;
+    inketQua(iee, val);
+    // inketQua(iee, 2 * pow(10, 4932)); quá khoảng
+    // inketQua(iee, -312.3125);
 }
