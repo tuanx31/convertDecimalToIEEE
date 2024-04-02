@@ -7,6 +7,15 @@
     "initializer_list": "cpp",
     "utility": "cpp",
     "xutility": "cpp",
-    "iostream": "cpp"
+    "iostream": "cpp",
+    "atomic": "cpp",
+    "charconv": "cpp",
+    "compare": "cpp",
+    "format": "cpp",
+    "system_error": "cpp",
+    "type_traits": "cpp",
+    "xlocale": "cpp",
+    "xlocbuf": "cpp",
+    "xloctime": "cpp"
   }
 }

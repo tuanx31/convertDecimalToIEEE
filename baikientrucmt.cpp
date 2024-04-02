@@ -137,6 +137,29 @@ public:
         return Ebin;
     }
 
+    string roundM(string &M)
+    {
+        if (M.length() <= typeIEEE.bitM)
+            return M;
+        string result = M.substr(0, typeIEEE.bitM);
+        if (M[typeIEEE.bitM] == '1')
+        {
+            for (int i = typeIEEE.bitM - 1; i >= 0; --i)
+            {
+                if (result[i] == '0')
+                {
+                    result[i] = '1';
+                    break;
+                }
+                else
+                {
+                    result[i] = '0'; // carry
+                }
+            }
+        }
+        return result;
+    }
+
     string findM(double num)
     {
         string result;
@@ -159,7 +182,7 @@ public:
         {
             result.push_back('0');
         }
-        return result;
+        return roundM(result);
     }
 
     string finalResultBin(double number)
@@ -196,9 +219,9 @@ void inketQua(IEEE iee, double num)
     string sign = iee.findS(num) == "0" ? "" : "-";
     cout << "Bin :" << sign << binary << endl;
     cout << "số mũ cần nhân để định chuẩn : " << iee.find_b(binary) << endl;
-    cout << "S :" << iee.findS(num) << endl;
-    cout << "E :" << iee.findE(num) << endl;
-    cout << "M :" << iee.findM(num) << endl;
+    cout << "S :" << iee.findS(num) << "\t\t" << iee.findS(num).length() << endl;
+    cout << "E :" << iee.findE(num) << "\t\t" << iee.findE(num).length() << endl;
+    cout << "M :" << iee.findM(num) << "\t\t" << iee.findM(num).length() << endl;
     cout << "\nSEM :";
     string resultBin = iee.finalResultBin(num);
     int space = 1;
@@ -211,6 +234,7 @@ void inketQua(IEEE iee, double num)
         }
         space++;
     }
+    cout << "\t\t" << resultBin.length();
     string hex = iee.finalResultHex(resultBin);
     cout << "\nHex :";
     int h = 1;
@@ -229,7 +253,7 @@ void inketQua(IEEE iee, double num)
 bool kiemTraDinhDang(string input)
 {
     stringstream ss(input);
-    int tuSo, mauSo;
+    double tuSo, mauSo;
     char delimiter;
     // Kiểm tra xem có thể đọc tử số và mẫu số từ chuỗi không
     if (!(ss >> tuSo >> delimiter >> mauSo))
@@ -256,7 +280,8 @@ public:
 
     void in()
     {
-        cout << tuSo << "/" << mauSo;
+        cout << tuSo << "/" << mauSo << endl
+             << tuSo / mauSo;
     }
 
     void nhap()
@@ -270,24 +295,27 @@ public:
             {
                 cout << "Chuỗi nhập vào không hợp lệ , vui lòng nhập lại \n";
             }
+            else
+            {
+                int pos = chuoi.find('/');
+                string tuSoStr = chuoi.substr(0, pos);
+                string mauSoStr = chuoi.substr(pos + 1);
+
+                tuSo = stod(tuSoStr);
+                mauSo = stod(mauSoStr);
+            }
 
         } while (!kiemTraDinhDang(chuoi));
-
-        int pos = chuoi.find('/');
-        string tuSoStr = chuoi.substr(0, pos);
-        string mauSoStr = chuoi.substr(pos + 1);
-
-        tuSo = stod(tuSoStr);   // Chuyển từ chuỗi sang double
-        mauSo = stod(mauSoStr); // Chuyển từ chuỗi sang double
     }
 };
 
 int main()
 {
     PhanSo ps;
-    ps.nhap();
+    // ps.nhap();
     IEEE iee(s32bit);
     cout << endl
          << "====================KQ====================" << endl;
-    inketQua(iee, ps.tuSo / ps.mauSo);
+    // inketQua(iee, ps.tuSo / ps.mauSo);
+    inketQua(iee, 0.05);
 }
