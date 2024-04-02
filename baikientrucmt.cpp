@@ -28,9 +28,10 @@ Standard s80bit(16383, 15, 64);
 
 class IEEE
 {
-    Standard typeIEEE;
 
 public:
+    Standard typeIEEE;
+
     IEEE(Standard type)
     {
         this->typeIEEE = type;
@@ -117,9 +118,7 @@ public:
 
         return intBinary + "." + fractionalBinary;
     }
-    /// @brief Tìm S trong bộ S E M
-    /// @param num tham số đầu vào
-    /// @return S
+
     string findS(double num)
     {
         return num < 0 ? "1" : "0";
@@ -215,6 +214,12 @@ public:
 
 void inketQua(IEEE iee, double num)
 {
+    if (abs(num) >= pow(2, iee.typeIEEE.bias))
+    {
+        cout << "Nhập số trong khoảng từ 2^-" << iee.typeIEEE.bias << " đến 2^" << iee.typeIEEE.bias;
+        return;
+    }
+
     string binary = iee.floatToBinary(num);
     string sign = iee.findS(num) == "0" ? "" : "-";
     cout << "Bin :" << sign << binary << endl;
@@ -312,10 +317,11 @@ public:
 int main()
 {
     PhanSo ps;
-    // ps.nhap();
-    IEEE iee(s32bit);
+    ps.nhap();
+    IEEE iee(s80bit);
+
     cout << endl
          << "====================KQ====================" << endl;
-    // inketQua(iee, ps.tuSo / ps.mauSo);
-    inketQua(iee, 0.05);
+    inketQua(iee, ps.tuSo / ps.mauSo);
+    // inketQua(iee, 2 * pow(10, 4932)); quá khoảng x
 }
