@@ -64,7 +64,7 @@ public:
     }
 
     // Chuyển đổi phần nguyên sang nhị phân
-    string intToBinary(long long n)
+    string intToBinary(int n)
     {
         if (n == 0)
             return "0";
@@ -318,7 +318,6 @@ int main()
 {
     PhanSo ps;
     ps.nhap();
-    ps.in();
     IEEE iee(s80bit);
 
     cout << endl
