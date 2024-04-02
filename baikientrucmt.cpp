@@ -3,7 +3,7 @@
 #include <sstream>
 #include <cmath>
 using namespace std;
-
+// cap nhat
 class Standard
 {
 public:
