@@ -1,5 +1,6 @@
 #include <iostream>
 #include <string>
+#include <sstream>
 #include <cmath>
 using namespace std;
 
@@ -189,14 +190,11 @@ public:
     }
 };
 
-int main()
+void inketQua(IEEE iee, double num)
 {
-    double num = -19.0 / 64;
-    // num = -112.3125;
-    // num = 17.375;
-    IEEE iee(s80bit);
     string binary = iee.floatToBinary(num);
-    cout << "Bin :" << binary << endl;
+    string sign = iee.findS(num) == "0" ? "" : "-";
+    cout << "Bin :" << sign << binary << endl;
     cout << "số mũ cần nhân để định chuẩn : " << iee.find_b(binary) << endl;
     cout << "S :" << iee.findS(num) << endl;
     cout << "E :" << iee.findE(num) << endl;
@@ -226,4 +224,70 @@ int main()
         h++;
     }
     cout << " H";
+}
+
+bool kiemTraDinhDang(string input)
+{
+    stringstream ss(input);
+    int tuSo, mauSo;
+    char delimiter;
+    // Kiểm tra xem có thể đọc tử số và mẫu số từ chuỗi không
+    if (!(ss >> tuSo >> delimiter >> mauSo))
+    {
+        return false;
+    }
+    // Kiểm tra dấu '/' sau tử số và trước mẫu số
+    if (delimiter != '/')
+    {
+        return false;
+    }
+    // Kiểm tra mẫu số khác 0
+    if (mauSo == 0)
+    {
+        return false;
+    }
+    return true;
+}
+
+class PhanSo
+{
+public:
+    double tuSo, mauSo;
+
+    void in()
+    {
+        cout << tuSo << "/" << mauSo;
+    }
+
+    void nhap()
+    {
+        string chuoi;
+        do
+        {
+            cout << "Nhập vào phân số (ví dụ 19/64) :";
+            cin >> chuoi;
+            if (!kiemTraDinhDang(chuoi))
+            {
+                cout << "Chuỗi nhập vào không hợp lệ , vui lòng nhập lại \n";
+            }
+
+        } while (!kiemTraDinhDang(chuoi));
+
+        int pos = chuoi.find('/');
+        string tuSoStr = chuoi.substr(0, pos);
+        string mauSoStr = chuoi.substr(pos + 1);
+
+        tuSo = stod(tuSoStr);   // Chuyển từ chuỗi sang double
+        mauSo = stod(mauSoStr); // Chuyển từ chuỗi sang double
+    }
+};
+
+int main()
+{
+    PhanSo ps;
+    ps.nhap();
+    IEEE iee(s32bit);
+    cout << endl
+         << "====================KQ====================" << endl;
+    inketQua(iee, ps.tuSo / ps.mauSo);
 }
