@@ -23,7 +23,7 @@ public:
     }
 };
 
-Standard s32bit(127, 8, 23);
+Standard s32bit(127, 8, 23); 
 Standard s80bit(16383, 15, 64);
 
 class IEEE
@@ -49,7 +49,7 @@ public:
             }
         }
 
-        int numOfBits = 0;
+        int numOfBits = 0;//số mũ cần nhân
 
         if (dotPosition > onePos)
         {
@@ -88,7 +88,6 @@ public:
         string result = "";
         while (num > 0)
         {
-            // Nhân số thực với 2 để xem bit tiếp theo là 0 hay 1
             long double temp = num * 2;
             if (temp >= 1)
             {
@@ -107,7 +106,6 @@ public:
     // Hàm chuyển đổi số thực sang nhị phân
     string floatToBinary(long double num)
     {
-        // Xác định dấu của số và chuyển đổi thành số dương
         string sign = (num < 0) ? "1 " : "0 ";
         num = abs(num);
 
@@ -137,7 +135,7 @@ public:
         return Ebin;
     }
 
-    string roundM(string &M)
+    string roundM(string& M)
     {
         if (M.length() <= typeIEEE.bitM)
             return M;
@@ -153,7 +151,7 @@ public:
                 }
                 else
                 {
-                    result[i] = '0'; // carry
+                    result[i] = '0'; 
                 }
             }
         }
@@ -203,6 +201,7 @@ public:
 
     string finalResultHex(string chuoiBin)
     {
+        //10101010
         string hexa = "";
 
         for (int i = 0; i < chuoiBin.size(); i += 4)
@@ -261,17 +260,14 @@ bool kiemTraDinhDang(string input)
     stringstream ss(input);
     long double tuSo, mauSo;
     char delimiter;
-    // Kiểm tra xem có thể đọc tử số và mẫu số từ chuỗi không
     if (!(ss >> tuSo >> delimiter >> mauSo))
     {
         return false;
     }
-    // Kiểm tra dấu '/' sau tử số và trước mẫu số
     if (delimiter != '/')
     {
         return false;
     }
-    // Kiểm tra mẫu số khác 0
     if (mauSo == 0)
     {
         return false;
@@ -287,7 +283,7 @@ public:
     void in()
     {
         cout << tuSo << "/" << mauSo << endl
-             << tuSo / mauSo;
+            << tuSo / mauSo;
     }
 
     void nhap()
@@ -319,12 +315,12 @@ int main()
 {
     PhanSo ps;
     ps.nhap();
-    ps.in();
+     ps.in();
     IEEE iee(s80bit);
     cout << endl
-         << "====================KQ====================" << endl;
+        << "====================KQ====================" << endl;
     long double val = ps.tuSo / ps.mauSo;
-    inketQua(iee, val);
-    // inketQua(iee, 2 * pow(10, 4932)); quá khoảng
-    // inketQua(iee, -312.3125);
+    inketQua(iee, val );
+     //inketQua(iee, 2 * pow(10, 4932)); //quá khoảng
+    //inketQua(iee, -312.3125);
 }
